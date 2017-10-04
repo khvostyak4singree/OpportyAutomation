@@ -22,12 +22,10 @@ public class Tools {
     }
 
 
-    public void openPage(String url, String title){
+    public void openPage(String url){
         try{
             driver.get(url);
-            wait.until(ExpectedConditions.titleIs(title));
             assertEquals(driver.getCurrentUrl(), url);
-            assertEquals(driver.getTitle(), title);
         } catch (Exception e){
             e.printStackTrace();
         }
