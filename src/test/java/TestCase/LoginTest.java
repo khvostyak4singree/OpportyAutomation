@@ -21,14 +21,14 @@ public class LoginTest extends ChromeConfig {
 
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     protected void loginFB() {
         loginPage.openLoginPageFB();
         loginPage.loginUserFB();
         loginPage.verifyUserFB();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 2)
     protected void loginLinkedIn() {
         loginPage.openLoginPageIN();
         loginPage.loginUserIN();
