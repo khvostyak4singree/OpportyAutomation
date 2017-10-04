@@ -5,10 +5,9 @@ import org.testng.annotations.Test;
 
 public class LoginTest extends ChromeConfig{
 
-    LoginPage loginPage = new LoginPage(driver);
-
     @Test
-        public void loginTest() throws Exception{
+        protected void loginTest() throws InterruptedException {
+        LoginPage loginPage = new LoginPage(driver);
         loginPage.openLoginPage();
         loginPage.loginUser();
         loginPage.verifyLogin();

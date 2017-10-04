@@ -6,24 +6,23 @@ package Pages;
         import org.openqa.selenium.support.FindBy;
         import org.openqa.selenium.support.PageFactory;
         import org.openqa.selenium.support.ui.ExpectedConditions;
+
         import static org.testng.Assert.assertEquals;
         import static org.testng.Assert.assertTrue;
 
 public class LoginPage extends Tools {
 
+        public LoginPage(WebDriver driver) {
+            this.driver = driver;
+            PageFactory.initElements(driver,this);
+            System.out.println("LoginPage elements are initialized");
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver,this);
-        System.out.println("LoginPage elements are initialized");
     }
 
     //Login user
-    public static final String HOME_PAGE_URL="https://testing.opporty.com";
-    public static final String HOME_PAGE_TITLE = "Requests for quotes, proposals, and offers of services and goods on Opporty.";
-    public static final String USER_EMAIL = "khvostyak+25@singree.com";
-    public static final String USER_PASSWORD = "111111";
-    public static final String USER_ACCOUNT="https://testing.opporty.com/account";
+    private String HOME_PAGE_URL="https://testing.opporty.com";
+    private String USER_EMAIL = "khvostyak+25@singree.com";
+    private String USER_PASSWORD = "111111";
 
     //FB user
     public static final String FB_EMAIL ="boikiy@mail.ru";
@@ -38,12 +37,18 @@ public class LoginPage extends Tools {
 
 
     //Login user
-    @FindBy(css = "input[name='email']") WebElement emailField;
-    @FindBy(css = "input[name='password']")WebElement passwordField;
-    @FindBy(css = "button[class='btn-react btn btn-default']") WebElement submitButton;
-    @FindBy(css = "#basic-nav-dropdown") WebElement accountDropDown;
-    @FindBy(css = "i[class='fa fa-sign-out']")WebElement logoutButton;
-    @FindBy(css = ".logIn") WebElement signInButton;
+    @FindBy(css = "input[name='email']")
+    private  WebElement emailField;
+    @FindBy(css = "input[name='password']")
+    private  WebElement passwordField;
+    @FindBy(css = "button[class='btn-react btn btn-default']")
+    private WebElement submitButton;
+    @FindBy(css = "#basic-nav-dropdown")
+    private WebElement accountDropDown;
+    @FindBy(css = "i[class='fa fa-sign-out']")
+    private  WebElement logoutButton;
+    @FindBy(css = "button[class='logIn']")
+    private WebElement signInButton;
 
     //FB User
     @FindBy(css = "div[class='social-facebook']") WebElement buttonFB;
@@ -60,48 +65,42 @@ public class LoginPage extends Tools {
     //User
 
    // @Step("Open Page")
-    public  void openLoginPage(){
-        openPage(HOME_PAGE_URL, HOME_PAGE_TITLE);
-        signInButton.click();
+   public void openLoginPage() throws InterruptedException {
+       driver.navigate().to(HOME_PAGE_URL);
+       Thread.sleep(5000);
+       waitForElementIsClickable(signInButton);
+       signInButton.click();
     }
 
    // @Step(" Login user")
-    public  void loginUser() throws InterruptedException {
-        try {
-            emailField.sendKeys(USER_EMAIL);
-            passwordField.sendKeys(USER_PASSWORD);
-            waitForElementIsClickable(submitButton);
-            submitButton.click();
-            Thread.sleep(1000);
-            getCurrentUrl(USER_ACCOUNT);
-            Thread.sleep(1000);
-        } catch (Exception | AssertionError e) {
-            e.printStackTrace();
-        }
+    public  void loginUser() {
+        emailField.sendKeys(USER_EMAIL);
+        passwordField.sendKeys(USER_PASSWORD);
+        waitForElementIsClickable(submitButton);
+        submitButton.click();
     }
 
    // @Step("Verify Login")
-    public  void verifyLogin() throws InterruptedException {
-        try {
+    public  void verifyLogin(){
             assertVisibility( accountDropDown);
+            waitForElementIsClickable(accountDropDown);
             accountDropDown.click();
             assertVisibility(logoutButton);
-        }catch (Exception | AssertionError e){
-            e.printStackTrace();
-        }finally {
-            if (logoutButton.isDisplayed()) ;
+            logoutButton.isDisplayed() ;
             logoutButton.click();
             assertVisibility(signInButton);
             assertTrue(signInButton.isDisplayed());
         }
-    }
+
 
 
     //User FB
 
    // @Step("Open Page FB")
     public  void openLoginPageFB() throws InterruptedException {
-        openPage(HOME_PAGE_URL, HOME_PAGE_TITLE);
+        driver.navigate().to(HOME_PAGE_URL);
+        Thread.sleep(3000);
+        waitForElementIsClickable(signInButton);
         signInButton.click();
         waitForElementIsClickable(buttonFB);
         buttonFB.click();
@@ -111,38 +110,33 @@ public class LoginPage extends Tools {
 
   //  @Step("Login User FB")
     public  void loginUserFB() throws InterruptedException{
-        try {
             emailFieldFB.sendKeys(FB_EMAIL);
             passFieldFB.sendKeys(FB_PASS);
             loginButtonFB.click();
             assertEquals(accountDropDown.getText(), FB_FIRST_NAME);
-        } catch (Exception |AssertionError e){
-            e.printStackTrace();
-        }
+
     }
 
   //  @Step("Verify User FB")
     public  void verifyUserFB()throws InterruptedException {
-        try {
             assertVisibility(accountDropDown);
             accountDropDown.click();
             assertVisibility(logoutButton);
-        }catch (Exception | AssertionError e){
-            e.printStackTrace();
-        }finally {
-            if (logoutButton.isDisplayed());
+            logoutButton.isDisplayed();
             logoutButton.click();
             assertVisibility(signInButton);
             assertTrue(signInButton.isDisplayed());
         }
-    }
+
 
 
     //User IN
 
    // @Step("Open Page IN")
     public  void openLoginPageIN() throws InterruptedException {
-        openPage(HOME_PAGE_URL, HOME_PAGE_TITLE);
+        driver.navigate().to(HOME_PAGE_URL);
+        Thread.sleep(3000);
+        waitForElementIsClickable(signInButton);
         signInButton.click();
         waitForElementIsClickable(buttonIN);
         buttonIN.click();
@@ -153,29 +147,19 @@ public class LoginPage extends Tools {
 
    // @Step("Login User IN")
     public  void loginUserIN() throws InterruptedException{
-        try {
             emailFieldIN.sendKeys(IN_EMAIL);
             passFieldIN.sendKeys(IN_PASS);
             loginButtonIN.click();
-        } catch (Exception |AssertionError e){
-            e.printStackTrace();
-        }
     }
 
   //  @Step("Verify User IN")
-    public  void verifyUserIN()throws InterruptedException {
-        try {
+    public  void verifyUserIN() throws InterruptedException {
             Thread.sleep(1000);
             assertVisibility(accountDropDown);
             accountDropDown.click();
-            assertVisibility(logoutButton);
-        }catch (Exception | AssertionError e){
-            e.printStackTrace();
-        }finally {
-            if (logoutButton.isDisplayed());
+            logoutButton.isDisplayed();
             logoutButton.click();
             assertVisibility(signInButton);
             assertTrue(signInButton.isDisplayed());
         }
     }
-}

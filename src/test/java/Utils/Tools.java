@@ -14,7 +14,6 @@ public class Tools {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-
     protected void sleep(int timeout) {
         try {
             Thread.sleep(timeout * 1000);
